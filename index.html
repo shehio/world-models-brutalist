@@ -1,0 +1,395 @@
+<!doctype html>
+<!-- DESIGN: brutalist — Neo-brutalist / Swiss. Space Grotesk + Archivo, monochrome #fff/#000 with electric-yellow #ffe600 accent, 4px black borders, hard 6px 6px 0 offset shadows, no rounded corners, big numbered slabs, hard-edged verdict badges, marquee strip, rotated sticker. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>world-models — distilling AlphaZero on one GPU</title>
+  <meta name="description" content="Reproducing AlphaZero-strength chess & Go networks by distilling classical engines (Stockfish, KataGo) into the same network family — on a single GPU.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== MARQUEE STRIP ===== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <span>CHESS 2,301 ELO ★ GO ≥2,366 ELO ★ ONE GPU ★ ~16 GPU-HOURS ★ DISTILLED FROM STOCKFISH / KATAGO ★ NO SELF-PLAY ★ </span>
+      <span>CHESS 2,301 ELO ★ GO ≥2,366 ELO ★ ONE GPU ★ ~16 GPU-HOURS ★ DISTILLED FROM STOCKFISH / KATAGO ★ NO SELF-PLAY ★ </span>
+    </div>
+  </div>
+
+  <!-- ===== HEADER / NAV ===== -->
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true">▚</span>
+        <span class="brand__name">world-models</span>
+      </div>
+      <nav class="nav" aria-label="Section navigation">
+        <a href="#results">Results</a>
+        <a href="#compute">Compute</a>
+        <a href="#how">How</a>
+        <a href="#experiments">Experiments</a>
+        <a href="#az">vs AlphaZero</a>
+        <a href="#lc0">vs Lc0</a>
+        <a href="#muzero">vs MuZero</a>
+        <a href="#selfplay">Self-play</a>
+        <a href="#cost">Cost</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap">
+        <div class="sticker" aria-hidden="true">ONE&nbsp;GPU.</div>
+        <h1 id="hero-title" class="hero__title">DISTILL<br>ALPHA<span class="hl">ZERO</span></h1>
+        <p class="hero__tag">chess &amp; go · distilled from Stockfish / KataGo · one GPU per run</p>
+        <p class="hero__pitch">
+          Reproducing AlphaZero-strength chess &amp; Go networks by <strong>distilling classical engines</strong>
+          (Stockfish, KataGo) into the <strong>same network family</strong> AlphaZero used —
+          trained on a <strong>single GPU</strong> instead of thousands of TPUs.
+        </p>
+        <div class="hero__stats">
+          <div class="statblock">
+            <div class="statblock__num">2,301</div>
+            <div class="statblock__lbl">Chess Elo</div>
+          </div>
+          <div class="statblock statblock--accent">
+            <div class="statblock__num">≥2,366</div>
+            <div class="statblock__lbl">Go (9×9) Elo</div>
+          </div>
+          <div class="statblock">
+            <div class="statblock__num">~16</div>
+            <div class="statblock__lbl">GPU-hours / run</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 01 RESULTS ===== -->
+    <section id="results" class="section" aria-labelledby="results-h">
+      <div class="wrap">
+        <div class="slab">
+          <span class="slab__num">01</span>
+          <h2 id="results-h" class="slab__title">HEADLINE RESULTS</h2>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card__kicker">CHESS</div>
+            <div class="card__big">2,301 <span class="card__unit">Elo</span></div>
+            <p>
+              R2 v2 (d15 46M positions, 20×256 cosine) epoch 14 · sims=4,000 · vs Stockfish UCI=1,800 ·
+              95% CI [2,190, 2,601]. The 95% lower bound (2,190) clears the previous peak
+              (d10 30M ep 15 = 2,189).
+            </p>
+          </article>
+
+          <article class="card card--accent">
+            <div class="card__kicker">GO (9×9)</div>
+            <div class="card__big">≥ 2,366 <span class="card__unit">Elo</span></div>
+            <p>
+              Parity with KataGo at 200 visits, from 1.236M KataGo-labeled positions. Anchored to
+              GnuGo L10 on a conventional Go-Elo scale (this is <em>not</em> the AlphaGo-paper scale;
+              the absolute number is anchor-dependent, but the lower bound is robust).
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="card__kicker">BOTH</div>
+            <div class="card__big">1 <span class="card__unit">L40S GPU</span></div>
+            <p>Both trained on <strong>one L40S GPU, ~16 GPU-hours each.</strong></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 02 COMPUTE ===== -->
+    <section id="compute" class="section section--inverse" aria-labelledby="compute-h">
+      <div class="wrap">
+        <div class="slab slab--onblack">
+          <span class="slab__num">02</span>
+          <h2 id="compute-h" class="slab__title">THE PITCH / COMPUTE</h2>
+        </div>
+
+        <p class="lede">
+          AlphaZero used <strong>5,000 first-gen TPUs</strong> for self-play data generation and
+          <strong>64 TPU-v2s</strong> to train. This project uses the <strong>same network family</strong>
+          (20- or 40-block × 256-channel ResNet, ~24–50M parameters) on <strong>one GPU</strong>, via
+          supervised distillation from Stockfish on 30–46M positions, evaluated against a calibrated
+          Stockfish opponent. Total cost per training run: <strong>~16–80 GPU-hours</strong> on a single
+          L40S — roughly <strong>three-to-four orders of magnitude less compute</strong> than the
+          AlphaZero training run (~10³× by device-hours, ~10⁴× by FLOPs).
+        </p>
+
+        <div class="ratio">
+          <div class="ratio__cell ratio__cell--big">10³×<small>fewer device-hours</small></div>
+          <div class="ratio__cell ratio__cell--big">10⁴×<small>fewer FLOPs</small></div>
+        </div>
+
+        <h3 class="subhead subhead--onblack">Other top numbers</h3>
+        <ul class="numlist numlist--onblack">
+          <li>R2 v2 <strong>ep 4</strong> at the same anchor: <strong>2,285</strong> [2,177, 2,554].</li>
+          <li><strong>R1 v2 ep 7 = 2,209</strong> [2,115, 2,389] — the 40×256 cosine variant's best.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== 03 HOW IT WORKS ===== -->
+    <section id="how" class="section" aria-labelledby="how-h">
+      <div class="wrap">
+        <div class="slab">
+          <span class="slab__num">03</span>
+          <h2 id="how-h" class="slab__title">HOW IT WORKS — TWO PHASES</h2>
+        </div>
+
+        <blockquote class="callout">
+          Training is one supervised pass; inference is MCTS using the trained net as its prior.
+          The network alone never picks a move — MCTS does, guided by the network.
+        </blockquote>
+
+        <div class="phase">
+          <h3 class="subhead"><span class="tick">1</span> Training (one-shot, no self-play)</h3>
+          <ol class="steps">
+            <li><strong>Stockfish self-plays</strong> games at search-depth 15. At every position it reports its top-8 candidate moves with centipawn scores.</li>
+            <li>Those scores become a soft distribution <code>π</code> over the 8 candidates (softmax at <strong>T = 1 pawn</strong>). The game outcome <code>z ∈ {−1, 0, +1}</code> is recorded from each side-to-move POV.</li>
+            <li>The student trains on <strong>(state, π, z)</strong> triples — cross-entropy on the policy head against <code>π</code>, MSE on the value head against <code>z</code>. No self-play, no MCTS at training time.</li>
+          </ol>
+        </div>
+
+        <div class="phase">
+          <h3 class="subhead"><span class="tick">2</span> The network</h3>
+          <p>
+            20 residual blocks × 256 channels, ~24M parameters. Input: a 19-plane board encoding
+            (pieces, side-to-move, castling, repetitions). Output: a 4,672-dim policy-logits vector and a
+            scalar value in <code>[−1, +1]</code>. <strong>The same architecture AlphaZero used — only the
+            way the weights are obtained differs.</strong>
+          </p>
+        </div>
+
+        <div class="phase">
+          <h3 class="subhead"><span class="tick">3</span> Playing a move (network + MCTS)</h3>
+          <p>
+            The trained network is a <strong>prior</strong> over moves and a <strong>value estimator</strong>
+            for leaf positions; the move comes from Monte Carlo Tree Search on top. One root move costs N
+            <strong>simulations</strong> (800 routine, 4,000 search-saturated). Each simulation:
+          </p>
+          <ul class="steps">
+            <li><strong>Selection.</strong> From the root, repeatedly pick the child maximizing <code>Q + U</code> (avg value below the move + an exploration bonus ∝ the prior <code>P</code>, ∝ 1/(visits)). Selection formula (AlphaGo Zero): <code>U(s,a) = c_puct · P(s,a) · √Σ_b N(s,b) / (1 + N(s,a))</code>.</li>
+            <li><strong>Expansion + evaluation.</strong> At an unexpanded node, encode the position, run <strong>one</strong> network forward pass, store policy logits as child priors + the value estimate.</li>
+            <li><strong>Backup.</strong> Propagate the leaf value up the path, incrementing visit counts and updating <code>Q</code>. Sign-flip at every ply (chess alternates side-to-move).</li>
+            <li>Repeat N sims, then pick the move with the <strong>highest visit count</strong> (MCTS's improved policy). More sims ⇒ sharper visit distribution: the same checkpoint scores <strong>1,807 Elo at 800 sims</strong> and <strong>2,084 Elo at 4,000 sims</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 04 EXPERIMENTS ===== -->
+    <section id="experiments" class="section" aria-labelledby="exp-h">
+      <div class="wrap">
+        <div class="slab">
+          <span class="slab__num">04</span>
+          <h2 id="exp-h" class="slab__title">EXPERIMENTS</h2>
+        </div>
+        <p class="lede">Single-variable ablations on the distilled baseline.</p>
+
+        <div class="verdicts">
+          <article class="verdict verdict--reject">
+            <div class="verdict__badge">REJECTED</div>
+            <h3 class="verdict__title">Network capacity</h3>
+            <p>Doubling depth 20→40 blocks didn't help (20-block 1,810 vs 40-block 1,810, Δ ±0). 5M positions for a 24M-param net is already over-parameterized.</p>
+          </article>
+
+          <article class="verdict verdict--confirm">
+            <div class="verdict__badge">CONFIRMED +277</div>
+            <h3 class="verdict__title">Eval-side search</h3>
+            <p>Deeper MCTS at inference, no retraining (800 sims 1,807 → 4,000 sims 2,084). The "1,800 ceiling" was an eval-time artifact.</p>
+          </article>
+
+          <article class="verdict verdict--confirm">
+            <div class="verdict__badge">CONFIRMED +199</div>
+            <h3 class="verdict__title">Data scale</h3>
+            <p>6× more positions (5M 1,810 → 30M 2,009). More data beat more parameters and a stronger teacher. The two confirmed levers (search, data) are both "more compute"; the rejected lever was "smarter network" — a clean bitter-lesson result.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 05 vs ALPHAZERO ===== -->
+    <section id="az" class="section section--inverse" aria-labelledby="az-h">
+      <div class="wrap">
+        <div class="slab slab--onblack">
+          <span class="slab__num">05</span>
+          <h2 id="az-h" class="slab__title">vs ALPHAZERO (2017)</h2>
+        </div>
+
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Comparison table: AlphaZero versus this project (scroll horizontally on small screens)">
+          <table class="ctable">
+            <caption class="sr-only">AlphaZero (2017) compared with this project</caption>
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">AlphaZero (2017)</th>
+                <th scope="col">This project</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">approach</th>
+                <td>tabula-rasa self-play RL</td>
+                <td>supervised distillation from Stockfish</td>
+              </tr>
+              <tr>
+                <th scope="row">network</th>
+                <td>20 blocks × 256 ch</td>
+                <td><strong>identical</strong></td>
+              </tr>
+              <tr>
+                <th scope="row">training compute</th>
+                <td>~45,000 TPU-v1-hr + 576 TPU-v2-hr</td>
+                <td>~16 GPU-hours (single L40S)</td>
+              </tr>
+              <tr>
+                <th scope="row">training data</th>
+                <td>~3.5 B positions</td>
+                <td>5M–30M positions</td>
+              </tr>
+              <tr>
+                <th scope="row">peak Elo</th>
+                <td>~3,500</td>
+                <td>2,301 (ep 14; lower-CI 2,190 clears 2,300) · 2,285 (ep 4) · 2,209 (R1 v2 ep 7)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 06 vs Lc0 ===== -->
+    <section id="lc0" class="section" aria-labelledby="lc0-h">
+      <div class="wrap">
+        <div class="slab">
+          <span class="slab__num">06</span>
+          <h2 id="lc0-h" class="slab__title">vs LEELA CHESS ZERO</h2>
+        </div>
+        <p class="lede">
+          The shared shape is <strong>"a strong prior, then self-play."</strong> Lc0 is
+          <strong>fundamentally a self-play (AlphaZero-style) engine</strong> — its strength came from
+          years of community self-play, <strong>not</strong> from distilling a classical engine;
+          warm-starts are accelerants. <strong>This project's twist:</strong> build the prior by distilling
+          a <em>classical</em> engine (Stockfish), then try the self-play half on top. Lc0's peak is
+          ~3,600 CCRL (top engine globally), bought by years of community self-play; the distilled prior is
+          the practical single-GPU ceiling here.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== 07 vs MUZERO ===== -->
+    <section id="muzero" class="section" aria-labelledby="mz-h">
+      <div class="wrap">
+        <div class="slab">
+          <span class="slab__num">07</span>
+          <h2 id="mz-h" class="slab__title">vs MUZERO</h2>
+        </div>
+        <p class="lede">
+          MuZero learns a <em>world model</em> (a latent dynamics function) and plans in latent space.
+          Two single-GPU attempts, both negative:
+        </p>
+        <div class="verdicts verdicts--two">
+          <article class="verdict verdict--reject">
+            <div class="verdict__badge">~700–900 ELO</div>
+            <h3 class="verdict__title">From-scratch MuZero</h3>
+            <p>Capped ~700–900 Elo (compute-starved, sparse rewards).</p>
+          </article>
+          <article class="verdict verdict--reject">
+            <div class="verdict__badge">COLLAPSED</div>
+            <h3 class="verdict__title">Distill-init MuZero</h3>
+            <p>Collapsed under MCTS — reusing the 2,301 teacher's frozen representation + prediction and training only the dynamics produced latents that drift off-manifold when unrolled, so search amplified confidently-wrong rollouts (scored down to 0/30 vs Stockfish).</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 08 SELF-PLAY POSTMORTEM ===== -->
+    <section id="selfplay" class="section section--inverse" aria-labelledby="sp-h">
+      <div class="wrap">
+        <div class="slab slab--onblack">
+          <span class="slab__num">08</span>
+          <h2 id="sp-h" class="slab__title">SELF-PLAY POSTMORTEM</h2>
+        </div>
+        <p class="lede">Negative results at fixed compute.</p>
+        <p class="lede">
+          Self-play <em>should</em> add +200–500 Elo on the distilled prior. At one-GPU compute it doesn't:
+          <strong>ungated self-play regresses</strong> (→ ~1,730, a ~370-Elo drop) and
+          <strong>gated self-play holds but doesn't climb</strong> (~2,101, gating floors regression but
+          candidates never beat the teacher ≥55%). Six chess attempts were spot-evicted before iteration 1
+          finished. The binding constraint is the <strong>strength of the self-play signal at this data
+          scale</strong> (~1.3k samples/iter), not infrastructure.
+        </p>
+        <p class="bigverdict">
+          Together with MuZero, this is the project's strongest evidence:
+          <span class="bigverdict__hl">distillation ≫ self-play / from-scratch at fixed compute.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ===== 09 COST & PROCESS ===== -->
+    <section id="cost" class="section" aria-labelledby="cost-h">
+      <div class="wrap">
+        <div class="slab">
+          <span class="slab__num">09</span>
+          <h2 id="cost-h" class="slab__title">COST &amp; PROCESS</h2>
+        </div>
+        <div class="spend">
+          <div class="spend__num">$3,143</div>
+          <div class="spend__lbl">May 2026 AWS spend</div>
+        </div>
+        <h3 class="subhead">Lessons</h3>
+        <ol class="lessons">
+          <li><strong>Test-before-spend</strong> — a 2-minute unit test caught an inverted MCTS value-sign that nearly cemented a false "MuZero can't learn this" conclusion.</li>
+          <li><strong>On-demand for long runs</strong>, spot only for short/restartable.</li>
+          <li><strong>Tear down idle infra</strong> (~$250 of idle EKS).</li>
+          <li><strong>Tag every instance.</strong></li>
+          <li><strong>Reuse generated data.</strong></li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer" aria-labelledby="footer-h">
+    <div class="wrap">
+      <h2 id="footer-h" class="footer__title">world-models</h2>
+      <div class="footer__grid">
+        <div class="footer__col">
+          <h3>Links</h3>
+          <ul>
+            <li><a href="https://shehio.github.io/world-models/">Live project site</a></li>
+            <li><a href="https://github.com/shehio/world-models">Source on GitHub</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h3>Papers referenced</h3>
+          <ul>
+            <li>AlphaZero (Silver et al. 2017)</li>
+            <li>MuZero (Schrittwieser et al. 2019)</li>
+            <li>KataGo (Wu 2019)</li>
+            <li>AlphaGo (Silver et al. 2016)</li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer__note">chess &amp; go · distilled from Stockfish / KataGo · one GPU per run</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
