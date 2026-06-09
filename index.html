@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- DESIGN: brutalist — Neo-brutalist / Swiss. Space Grotesk + Archivo, monochrome #fff/#000 with electric-yellow #ffe600 accent, 4px black borders, hard 6px 6px 0 offset shadows, no rounded corners, big numbered slabs, hard-edged verdict badges, marquee strip, rotated sticker. -->
+<!-- CANDIDATE: brutalist-A — raw neo-brutalist, elevated. Space Grotesk + Archivo, mono #FFF/#0A0A0A with DeepMind BLUE #3186FF + GREEN #34A853 as the two loud accents (NO YELLOW). Massive oversized hero display type, bold asymmetric grid, layered/overlapping blocks, hard 8px offset blue/green drop-shadows, thick 4px black borders, zero rounded corners, rotated sticker labels, scrolling marquee, numbered slabs, hard-edged verdict blocks. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -8,7 +8,7 @@
   <meta name="description" content="Reproducing AlphaZero-strength chess & Go networks by distilling classical engines (Stockfish, KataGo) into the same network family — on a single GPU.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,26 +17,26 @@
   <!-- ===== MARQUEE STRIP ===== -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track">
-      <span>CHESS 2,301 ELO ★ GO ≥2,366 ELO ★ ONE GPU ★ ~16 GPU-HOURS ★ DISTILLED FROM STOCKFISH / KATAGO ★ NO SELF-PLAY ★ </span>
-      <span>CHESS 2,301 ELO ★ GO ≥2,366 ELO ★ ONE GPU ★ ~16 GPU-HOURS ★ DISTILLED FROM STOCKFISH / KATAGO ★ NO SELF-PLAY ★ </span>
+      <span>CHESS&nbsp;2,301&nbsp;ELO&nbsp;&nbsp;◆&nbsp;&nbsp;GO&nbsp;≥2,366&nbsp;ELO&nbsp;&nbsp;◆&nbsp;&nbsp;ONE&nbsp;GPU&nbsp;&nbsp;◆&nbsp;&nbsp;~16&nbsp;GPU-HOURS&nbsp;&nbsp;◆&nbsp;&nbsp;DISTILLED&nbsp;FROM&nbsp;STOCKFISH&nbsp;/&nbsp;KATAGO&nbsp;&nbsp;◆&nbsp;&nbsp;NO&nbsp;SELF-PLAY&nbsp;&nbsp;◆&nbsp;&nbsp;10³×&nbsp;LESS&nbsp;COMPUTE&nbsp;&nbsp;◆&nbsp;&nbsp;</span>
+      <span>CHESS&nbsp;2,301&nbsp;ELO&nbsp;&nbsp;◆&nbsp;&nbsp;GO&nbsp;≥2,366&nbsp;ELO&nbsp;&nbsp;◆&nbsp;&nbsp;ONE&nbsp;GPU&nbsp;&nbsp;◆&nbsp;&nbsp;~16&nbsp;GPU-HOURS&nbsp;&nbsp;◆&nbsp;&nbsp;DISTILLED&nbsp;FROM&nbsp;STOCKFISH&nbsp;/&nbsp;KATAGO&nbsp;&nbsp;◆&nbsp;&nbsp;NO&nbsp;SELF-PLAY&nbsp;&nbsp;◆&nbsp;&nbsp;10³×&nbsp;LESS&nbsp;COMPUTE&nbsp;&nbsp;◆&nbsp;&nbsp;</span>
     </div>
   </div>
 
   <!-- ===== HEADER / NAV ===== -->
   <header class="masthead">
     <div class="wrap masthead__inner">
-      <div class="brand">
+      <a class="brand" href="#main">
         <span class="brand__mark" aria-hidden="true">▚</span>
         <span class="brand__name">world-models</span>
-      </div>
+      </a>
       <nav class="nav" aria-label="Section navigation">
         <a href="#results">Results</a>
         <a href="#compute">Compute</a>
         <a href="#how">How</a>
         <a href="#experiments">Experiments</a>
-        <a href="#az">vs AlphaZero</a>
-        <a href="#lc0">vs Lc0</a>
-        <a href="#muzero">vs MuZero</a>
+        <a href="#az">vs&nbsp;AlphaZero</a>
+        <a href="#lc0">vs&nbsp;Lc0</a>
+        <a href="#muzero">vs&nbsp;MuZero</a>
         <a href="#selfplay">Self-play</a>
         <a href="#cost">Cost</a>
       </nav>
@@ -47,27 +47,35 @@
 
     <!-- ===== HERO ===== -->
     <section class="hero" aria-labelledby="hero-title">
-      <div class="wrap">
-        <div class="sticker" aria-hidden="true">ONE&nbsp;GPU.</div>
-        <h1 id="hero-title" class="hero__title">DISTILL<br>ALPHA<span class="hl">ZERO</span></h1>
+      <div class="wrap hero__inner">
+        <div class="hero__head">
+          <span class="sticker sticker--blue" aria-hidden="true">ONE&nbsp;GPU.</span>
+          <span class="sticker sticker--green" aria-hidden="true">NO&nbsp;SELF-PLAY.</span>
+        </div>
+        <h1 id="hero-title" class="hero__title">
+          <span class="hero__line">DISTILL</span>
+          <span class="hero__line">ALPHA<span class="hl">ZERO</span></span>
+        </h1>
         <p class="hero__tag">chess &amp; go · distilled from Stockfish / KataGo · one GPU per run</p>
-        <p class="hero__pitch">
-          Reproducing AlphaZero-strength chess &amp; Go networks by <strong>distilling classical engines</strong>
-          (Stockfish, KataGo) into the <strong>same network family</strong> AlphaZero used —
-          trained on a <strong>single GPU</strong> instead of thousands of TPUs.
-        </p>
-        <div class="hero__stats">
-          <div class="statblock">
-            <div class="statblock__num">2,301</div>
-            <div class="statblock__lbl">Chess Elo</div>
-          </div>
-          <div class="statblock statblock--accent">
-            <div class="statblock__num">≥2,366</div>
-            <div class="statblock__lbl">Go (9×9) Elo</div>
-          </div>
-          <div class="statblock">
-            <div class="statblock__num">~16</div>
-            <div class="statblock__lbl">GPU-hours / run</div>
+        <div class="hero__grid">
+          <p class="hero__pitch">
+            Reproducing AlphaZero-strength chess &amp; Go networks by <strong>distilling classical engines</strong>
+            (Stockfish, KataGo) into the <strong>same network family</strong> AlphaZero used —
+            trained on a <strong>single GPU</strong> instead of thousands of TPUs.
+          </p>
+          <div class="hero__stats">
+            <div class="statblock">
+              <div class="statblock__num">2,301</div>
+              <div class="statblock__lbl">Chess Elo</div>
+            </div>
+            <div class="statblock statblock--green">
+              <div class="statblock__num">≥2,366</div>
+              <div class="statblock__lbl">Go (9×9) Elo</div>
+            </div>
+            <div class="statblock statblock--blue">
+              <div class="statblock__num">~16</div>
+              <div class="statblock__lbl">GPU-hours / run</div>
+            </div>
           </div>
         </div>
       </div>
@@ -78,13 +86,13 @@
       <div class="wrap">
         <div class="slab">
           <span class="slab__num">01</span>
-          <h2 id="results-h" class="slab__title">HEADLINE RESULTS</h2>
+          <h2 id="results-h" class="slab__title">Headline results</h2>
         </div>
 
         <div class="cards">
-          <article class="card">
-            <div class="card__kicker">CHESS</div>
-            <div class="card__big">2,301 <span class="card__unit">Elo</span></div>
+          <article class="card card--feature">
+            <div class="card__kicker">Chess</div>
+            <div class="card__big"><span class="num-blue">2,301</span> <span class="card__unit">Elo</span></div>
             <p>
               R2 v2 (d15 46M positions, 20×256 cosine) epoch 14 · sims=4,000 · vs Stockfish UCI=1,800 ·
               95% CI [2,190, 2,601]. The 95% lower bound (2,190) clears the previous peak
@@ -92,8 +100,8 @@
             </p>
           </article>
 
-          <article class="card card--accent">
-            <div class="card__kicker">GO (9×9)</div>
+          <article class="card card--green">
+            <div class="card__kicker">Go (9×9)</div>
             <div class="card__big">≥ 2,366 <span class="card__unit">Elo</span></div>
             <p>
               Parity with KataGo at 200 visits, from 1.236M KataGo-labeled positions. Anchored to
@@ -103,8 +111,8 @@
           </article>
 
           <article class="card">
-            <div class="card__kicker">BOTH</div>
-            <div class="card__big">1 <span class="card__unit">L40S GPU</span></div>
+            <div class="card__kicker">Both</div>
+            <div class="card__big"><span class="num-blue">1</span> <span class="card__unit">L40S GPU</span></div>
             <p>Both trained on <strong>one L40S GPU, ~16 GPU-hours each.</strong></p>
           </article>
         </div>
@@ -116,7 +124,7 @@
       <div class="wrap">
         <div class="slab slab--onblack">
           <span class="slab__num">02</span>
-          <h2 id="compute-h" class="slab__title">THE PITCH / COMPUTE</h2>
+          <h2 id="compute-h" class="slab__title">The pitch / compute</h2>
         </div>
 
         <p class="lede">
@@ -130,14 +138,20 @@
         </p>
 
         <div class="ratio">
-          <div class="ratio__cell ratio__cell--big">10³×<small>fewer device-hours</small></div>
-          <div class="ratio__cell ratio__cell--big">10⁴×<small>fewer FLOPs</small></div>
+          <div class="ratio__cell ratio__cell--blue">
+            <span class="ratio__num">10³×</span>
+            <small>fewer device-hours</small>
+          </div>
+          <div class="ratio__cell ratio__cell--green">
+            <span class="ratio__num">10⁴×</span>
+            <small>fewer FLOPs</small>
+          </div>
         </div>
 
         <h3 class="subhead subhead--onblack">Other top numbers</h3>
         <ul class="numlist numlist--onblack">
-          <li>R2 v2 <strong>ep 4</strong> at the same anchor: <strong>2,285</strong> [2,177, 2,554].</li>
-          <li><strong>R1 v2 ep 7 = 2,209</strong> [2,115, 2,389] — the 40×256 cosine variant's best.</li>
+          <li>R2 v2 <strong>ep 4</strong> at the same anchor: <strong class="num-on-dark">2,285</strong> [2,177, 2,554].</li>
+          <li><strong class="num-on-dark">R1 v2 ep 7 = 2,209</strong> [2,115, 2,389] — the 40×256 cosine variant's best.</li>
         </ul>
       </div>
     </section>
@@ -147,7 +161,7 @@
       <div class="wrap">
         <div class="slab">
           <span class="slab__num">03</span>
-          <h2 id="how-h" class="slab__title">HOW IT WORKS — TWO PHASES</h2>
+          <h2 id="how-h" class="slab__title">How it works — two phases</h2>
         </div>
 
         <blockquote class="callout">
@@ -155,38 +169,40 @@
           The network alone never picks a move — MCTS does, guided by the network.
         </blockquote>
 
-        <div class="phase">
-          <h3 class="subhead"><span class="tick">1</span> Training (one-shot, no self-play)</h3>
-          <ol class="steps">
-            <li><strong>Stockfish self-plays</strong> games at search-depth 15. At every position it reports its top-8 candidate moves with centipawn scores.</li>
-            <li>Those scores become a soft distribution <code>π</code> over the 8 candidates (softmax at <strong>T = 1 pawn</strong>). The game outcome <code>z ∈ {−1, 0, +1}</code> is recorded from each side-to-move POV.</li>
-            <li>The student trains on <strong>(state, π, z)</strong> triples — cross-entropy on the policy head against <code>π</code>, MSE on the value head against <code>z</code>. No self-play, no MCTS at training time.</li>
-          </ol>
-        </div>
+        <div class="phases">
+          <div class="phase">
+            <h3 class="subhead"><span class="tick tick--blue">1</span> Training (one-shot, no self-play)</h3>
+            <ol class="steps">
+              <li><strong>Stockfish self-plays</strong> games at search-depth 15. At every position it reports its top-8 candidate moves with centipawn scores.</li>
+              <li>Those scores become a soft distribution <code>π</code> over the 8 candidates (softmax at <strong>T = 1 pawn</strong>). The game outcome <code>z ∈ {−1, 0, +1}</code> is recorded from each side-to-move POV.</li>
+              <li>The student trains on <strong>(state, π, z)</strong> triples — cross-entropy on the policy head against <code>π</code>, MSE on the value head against <code>z</code>. No self-play, no MCTS at training time.</li>
+            </ol>
+          </div>
 
-        <div class="phase">
-          <h3 class="subhead"><span class="tick">2</span> The network</h3>
-          <p>
-            20 residual blocks × 256 channels, ~24M parameters. Input: a 19-plane board encoding
-            (pieces, side-to-move, castling, repetitions). Output: a 4,672-dim policy-logits vector and a
-            scalar value in <code>[−1, +1]</code>. <strong>The same architecture AlphaZero used — only the
-            way the weights are obtained differs.</strong>
-          </p>
-        </div>
+          <div class="phase">
+            <h3 class="subhead"><span class="tick tick--green">2</span> The network</h3>
+            <p>
+              20 residual blocks × 256 channels, ~24M parameters. Input: a 19-plane board encoding
+              (pieces, side-to-move, castling, repetitions). Output: a 4,672-dim policy-logits vector and a
+              scalar value in <code>[−1, +1]</code>. <strong>The same architecture AlphaZero used — only the
+              way the weights are obtained differs.</strong>
+            </p>
+          </div>
 
-        <div class="phase">
-          <h3 class="subhead"><span class="tick">3</span> Playing a move (network + MCTS)</h3>
-          <p>
-            The trained network is a <strong>prior</strong> over moves and a <strong>value estimator</strong>
-            for leaf positions; the move comes from Monte Carlo Tree Search on top. One root move costs N
-            <strong>simulations</strong> (800 routine, 4,000 search-saturated). Each simulation:
-          </p>
-          <ul class="steps">
-            <li><strong>Selection.</strong> From the root, repeatedly pick the child maximizing <code>Q + U</code> (avg value below the move + an exploration bonus ∝ the prior <code>P</code>, ∝ 1/(visits)). Selection formula (AlphaGo Zero): <code>U(s,a) = c_puct · P(s,a) · √Σ_b N(s,b) / (1 + N(s,a))</code>.</li>
-            <li><strong>Expansion + evaluation.</strong> At an unexpanded node, encode the position, run <strong>one</strong> network forward pass, store policy logits as child priors + the value estimate.</li>
-            <li><strong>Backup.</strong> Propagate the leaf value up the path, incrementing visit counts and updating <code>Q</code>. Sign-flip at every ply (chess alternates side-to-move).</li>
-            <li>Repeat N sims, then pick the move with the <strong>highest visit count</strong> (MCTS's improved policy). More sims ⇒ sharper visit distribution: the same checkpoint scores <strong>1,807 Elo at 800 sims</strong> and <strong>2,084 Elo at 4,000 sims</strong>.</li>
-          </ul>
+          <div class="phase">
+            <h3 class="subhead"><span class="tick tick--blue">3</span> Playing a move (network + MCTS)</h3>
+            <p>
+              The trained network is a <strong>prior</strong> over moves and a <strong>value estimator</strong>
+              for leaf positions; the move comes from Monte Carlo Tree Search on top. One root move costs N
+              <strong>simulations</strong> (800 routine, 4,000 search-saturated). Each simulation:
+            </p>
+            <ul class="steps steps--bullets">
+              <li><strong>Selection.</strong> From the root, repeatedly pick the child maximizing <code>Q + U</code> (avg value below the move + an exploration bonus ∝ the prior <code>P</code>, ∝ 1/(visits)). Selection formula (AlphaGo Zero): <code>U(s,a) = c_puct · P(s,a) · √Σ_b N(s,b) / (1 + N(s,a))</code>.</li>
+              <li><strong>Expansion + evaluation.</strong> At an unexpanded node, encode the position, run <strong>one</strong> network forward pass, store policy logits as child priors + the value estimate.</li>
+              <li><strong>Backup.</strong> Propagate the leaf value up the path, incrementing visit counts and updating <code>Q</code>. Sign-flip at every ply (chess alternates side-to-move).</li>
+              <li>Repeat N sims, then pick the move with the <strong>highest visit count</strong> (MCTS's improved policy). More sims ⇒ sharper visit distribution: the same checkpoint scores <strong>1,807 Elo at 800 sims</strong> and <strong>2,084 Elo at 4,000 sims</strong>.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -196,7 +212,7 @@
       <div class="wrap">
         <div class="slab">
           <span class="slab__num">04</span>
-          <h2 id="exp-h" class="slab__title">EXPERIMENTS</h2>
+          <h2 id="exp-h" class="slab__title">Experiments</h2>
         </div>
         <p class="lede">Single-variable ablations on the distilled baseline.</p>
 
@@ -208,13 +224,13 @@
           </article>
 
           <article class="verdict verdict--confirm">
-            <div class="verdict__badge">CONFIRMED +277</div>
+            <div class="verdict__badge">CONFIRMED <span class="delta">+277</span></div>
             <h3 class="verdict__title">Eval-side search</h3>
             <p>Deeper MCTS at inference, no retraining (800 sims 1,807 → 4,000 sims 2,084). The "1,800 ceiling" was an eval-time artifact.</p>
           </article>
 
           <article class="verdict verdict--confirm">
-            <div class="verdict__badge">CONFIRMED +199</div>
+            <div class="verdict__badge">CONFIRMED <span class="delta">+199</span></div>
             <h3 class="verdict__title">Data scale</h3>
             <p>6× more positions (5M 1,810 → 30M 2,009). More data beat more parameters and a stronger teacher. The two confirmed levers (search, data) are both "more compute"; the rejected lever was "smarter network" — a clean bitter-lesson result.</p>
           </article>
@@ -227,7 +243,7 @@
       <div class="wrap">
         <div class="slab slab--onblack">
           <span class="slab__num">05</span>
-          <h2 id="az-h" class="slab__title">vs ALPHAZERO (2017)</h2>
+          <h2 id="az-h" class="slab__title">vs AlphaZero (2017)</h2>
         </div>
 
         <div class="table-wrap" tabindex="0" role="region" aria-label="Comparison table: AlphaZero versus this project (scroll horizontally on small screens)">
@@ -235,9 +251,9 @@
             <caption class="sr-only">AlphaZero (2017) compared with this project</caption>
             <thead>
               <tr>
-                <th scope="col"></th>
+                <th scope="col"><span class="sr-only">Dimension</span></th>
                 <th scope="col">AlphaZero (2017)</th>
-                <th scope="col">This project</th>
+                <th scope="col" class="ctable__us">This project</th>
               </tr>
             </thead>
             <tbody>
@@ -277,7 +293,7 @@
       <div class="wrap">
         <div class="slab">
           <span class="slab__num">06</span>
-          <h2 id="lc0-h" class="slab__title">vs LEELA CHESS ZERO</h2>
+          <h2 id="lc0-h" class="slab__title">vs Leela Chess Zero</h2>
         </div>
         <p class="lede">
           The shared shape is <strong>"a strong prior, then self-play."</strong> Lc0 is
@@ -296,7 +312,7 @@
       <div class="wrap">
         <div class="slab">
           <span class="slab__num">07</span>
-          <h2 id="mz-h" class="slab__title">vs MUZERO</h2>
+          <h2 id="mz-h" class="slab__title">vs MuZero</h2>
         </div>
         <p class="lede">
           MuZero learns a <em>world model</em> (a latent dynamics function) and plans in latent space.
@@ -322,9 +338,9 @@
       <div class="wrap">
         <div class="slab slab--onblack">
           <span class="slab__num">08</span>
-          <h2 id="sp-h" class="slab__title">SELF-PLAY POSTMORTEM</h2>
+          <h2 id="sp-h" class="slab__title">Self-play postmortem</h2>
         </div>
-        <p class="lede">Negative results at fixed compute.</p>
+        <p class="lede"><strong>Negative results at fixed compute.</strong></p>
         <p class="lede">
           Self-play <em>should</em> add +200–500 Elo on the distilled prior. At one-GPU compute it doesn't:
           <strong>ungated self-play regresses</strong> (→ ~1,730, a ~370-Elo drop) and
@@ -345,20 +361,24 @@
       <div class="wrap">
         <div class="slab">
           <span class="slab__num">09</span>
-          <h2 id="cost-h" class="slab__title">COST &amp; PROCESS</h2>
+          <h2 id="cost-h" class="slab__title">Cost &amp; process</h2>
         </div>
-        <div class="spend">
-          <div class="spend__num">$3,143</div>
-          <div class="spend__lbl">May 2026 AWS spend</div>
+        <div class="cost-grid">
+          <div class="spend">
+            <div class="spend__num">$3,143</div>
+            <div class="spend__lbl">May 2026 AWS spend</div>
+          </div>
+          <div class="cost-grid__lessons">
+            <h3 class="subhead">Lessons</h3>
+            <ol class="lessons">
+              <li><strong>Test-before-spend</strong> — a 2-minute unit test caught an inverted MCTS value-sign that nearly cemented a false "MuZero can't learn this" conclusion.</li>
+              <li><strong>On-demand for long runs</strong>, spot only for short/restartable.</li>
+              <li><strong>Tear down idle infra</strong> (~$250 of idle EKS).</li>
+              <li><strong>Tag every instance.</strong></li>
+              <li><strong>Reuse generated data.</strong></li>
+            </ol>
+          </div>
         </div>
-        <h3 class="subhead">Lessons</h3>
-        <ol class="lessons">
-          <li><strong>Test-before-spend</strong> — a 2-minute unit test caught an inverted MCTS value-sign that nearly cemented a false "MuZero can't learn this" conclusion.</li>
-          <li><strong>On-demand for long runs</strong>, spot only for short/restartable.</li>
-          <li><strong>Tear down idle infra</strong> (~$250 of idle EKS).</li>
-          <li><strong>Tag every instance.</strong></li>
-          <li><strong>Reuse generated data.</strong></li>
-        </ol>
       </div>
     </section>
 
