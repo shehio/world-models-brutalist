@@ -13,11 +13,10 @@
   /* Agent57 (DeepMind) palette — blue + green sampled from the post's figures */
   --blue:       #0053D6;   /* Agent57 royal blue — fills (WHITE text), links, big display */
   --blue-deep:  #123693;   /* Agent57 dark navy — fills w/ white text, borders, focus */
-  --blue-light: #5C93F5;   /* light royal — accents/text on DARK sections (AA on near-black) */
+  --blue-light: #AABFFF;   /* Agent57 figure light blue (Fig203) — text/accents on DARK sections */
 
   /* Agent57 green (teal) */
-  --green:      #14C8B9;   /* deeper teal — fills (BLACK text), shadows, ticks, borders */
-  --green-deep: #0B7D6E;   /* dark teal — AA-safe green TEXT on light */
+  --green:      #14C8B9;   /* deeper teal (Fig202) — fills (BLACK text), shadows, ticks, borders */
 
   --grid-line: rgba(10, 10, 10, 0.045);
 
@@ -79,7 +78,6 @@ code {
 
 /* coloured number/accent text — AA-safe variants only */
 .num-blue  { color: var(--blue); }
-.num-green { color: var(--green-deep); }
 
 /* ---------- utilities ---------- */
 .wrap {
@@ -622,7 +620,7 @@ ul.steps--bullets li {
   font-weight: 700;
   white-space: nowrap;
 }
-.ctable tbody tr:nth-child(even) td { background: #F2F4F8; }
+.ctable tbody tr:nth-child(even) td { background: #D8DDDD; }
 
 /* ============================================================
    08 BIG VERDICT
@@ -681,7 +679,7 @@ ul.steps--bullets li {
 }
 .cost-grid__lessons .subhead { margin-top: 0; }
 .lessons { counter-reset: lesson; }
-.lessons li { border-left-color: var(--green-deep); }
+.lessons li { border-left-color: var(--green); }
 
 /* ============================================================
    FOOTER
@@ -701,7 +699,7 @@ ul.steps--bullets li {
   letter-spacing: -0.05em;
   margin: 0 0 0.5em;
   line-height: 0.86;
-  background: linear-gradient(135deg, #0053D6 0%, #1f86c9 50%, #14C8B9 100%);
+  background: linear-gradient(135deg, #0053D6 0%, #14C8B9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
