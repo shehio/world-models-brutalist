@@ -1,7 +1,7 @@
 /* ============================================================
    world-models — CANDIDATE brutalist-A
    Raw neo-brutalist, elevated.
-   Mono #FFF / #0A0A0A + Agent57 BLUE #0053D6 + mint-teal GREEN #33E0C8.
+   Mono #FFF / #0A0A0A + Agent57 BLUE #0053D6 + teal GREEN #14C8B9.
    NO YELLOW. Thick black borders, hard blue/green offset shadows,
    zero rounded corners, oversized display type, layered blocks.
    ============================================================ */
@@ -15,8 +15,8 @@
   --blue-deep:  #123693;   /* Agent57 dark navy — fills w/ white text, borders, focus */
   --blue-light: #5C93F5;   /* light royal — accents/text on DARK sections (AA on near-black) */
 
-  /* Agent57 green (mint-teal) */
-  --green:      #33E0C8;   /* mint-teal — fills (BLACK text), shadows, ticks, borders */
+  /* Agent57 green (teal) */
+  --green:      #14C8B9;   /* deeper teal — fills (BLACK text), shadows, ticks, borders */
   --green-deep: #0B7D6E;   /* dark teal — AA-safe green TEXT on light */
 
   --grid-line: rgba(10, 10, 10, 0.045);
@@ -115,32 +115,6 @@ button:focus-visible,
 }
 
 /* ============================================================
-   MARQUEE STRIP
-   ============================================================ */
-.marquee {
-  background: var(--blue-deep);
-  color: #fff;
-  border-bottom: var(--bw) solid var(--ink);
-  overflow: hidden;
-  white-space: nowrap;
-  font-family: var(--display);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  font-size: clamp(0.72rem, 1.6vw, 0.9rem);
-  padding: 9px 0;
-}
-.marquee__track {
-  display: inline-flex;
-  will-change: transform;
-  animation: scroll-x 34s linear infinite;
-}
-.marquee__track span { padding-right: 0; }
-@keyframes scroll-x {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-/* ============================================================
    MASTHEAD / NAV
    ============================================================ */
 .masthead {
@@ -209,7 +183,7 @@ button:focus-visible,
   overflow: hidden;
   background:
     radial-gradient(120% 90% at 100% 0%, rgba(0,83,214,0.12), transparent 55%),
-    radial-gradient(120% 90% at 0% 100%, rgba(51,224,200,0.16), transparent 55%);
+    radial-gradient(120% 90% at 0% 100%, rgba(20,200,185,0.16), transparent 55%);
 }
 .hero__head {
   display: flex;
@@ -727,7 +701,7 @@ ul.steps--bullets li {
   letter-spacing: -0.05em;
   margin: 0 0 0.5em;
   line-height: 0.86;
-  background: linear-gradient(135deg, #0053D6 0%, #1f86c9 50%, #33E0C8 100%);
+  background: linear-gradient(135deg, #0053D6 0%, #1f86c9 50%, #14C8B9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -834,7 +808,6 @@ ul.steps--bullets li {
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .marquee__track { animation: none; transform: none; }
   * { transition: none !important; }
   .nav a:active { transform: none; }
   .statblock:hover, .card:hover, .verdict:hover,
