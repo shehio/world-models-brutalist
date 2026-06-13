@@ -1,7 +1,7 @@
 /* ============================================================
    world-models — CANDIDATE brutalist-A
    Raw neo-brutalist, elevated.
-   Mono #FFF / #0A0A0A + DeepMind BLUE #3186FF + GREEN #34A853.
+   Mono #FFF / #0A0A0A + Agent57 BLUE #0053D6 + mint-teal GREEN #33E0C8.
    NO YELLOW. Thick black borders, hard blue/green offset shadows,
    zero rounded corners, oversized display type, layered blocks.
    ============================================================ */
@@ -10,21 +10,21 @@
   --ink: #0A0A0A;
   --paper: #FFFFFF;
 
-  /* DeepMind blue family */
-  --blue:       #3186FF;   /* core fill / large text */
-  --blue-deep:  #346BF1;   /* AA-safe text on light */
-  --blue-light: #4FA0FF;   /* highlight / glow only */
+  /* Agent57 (DeepMind) palette — blue + green sampled from the post's figures */
+  --blue:       #0053D6;   /* Agent57 royal blue — fills (WHITE text), links, big display */
+  --blue-deep:  #123693;   /* Agent57 dark navy — fills w/ white text, borders, focus */
+  --blue-light: #5C93F5;   /* light royal — accents/text on DARK sections (AA on near-black) */
 
-  /* DeepMind green family */
-  --green:      #34A853;   /* core fill / large text */
-  --green-deep: #157347;   /* AA-safe text on light */
+  /* Agent57 green (mint-teal) */
+  --green:      #33E0C8;   /* mint-teal — fills (BLACK text), shadows, ticks, borders */
+  --green-deep: #0B7D6E;   /* dark teal — AA-safe green TEXT on light */
 
   --grid-line: rgba(10, 10, 10, 0.045);
 
   --bw: 4px;                                   /* border weight */
   --bw-sm: 3px;
   --sh: 8px;                                   /* shadow offset */
-  --shadow-blue:  var(--sh) var(--sh) 0 var(--blue-deep);
+  --shadow-blue:  var(--sh) var(--sh) 0 var(--blue);
   --shadow-green: var(--sh) var(--sh) 0 var(--green);
   --shadow-ink:   var(--sh) var(--sh) 0 var(--ink);
 
@@ -61,7 +61,7 @@ body {
 
 img, svg { max-width: 100%; display: block; }
 
-a { color: var(--blue-deep); }
+a { color: var(--blue); }
 
 strong { font-weight: 700; }
 
@@ -78,7 +78,7 @@ code {
 }
 
 /* coloured number/accent text — AA-safe variants only */
-.num-blue  { color: var(--blue-deep); }
+.num-blue  { color: var(--blue); }
 .num-green { color: var(--green-deep); }
 
 /* ---------- utilities ---------- */
@@ -208,8 +208,8 @@ button:focus-visible,
   padding-block: clamp(36px, 6vw, 84px);
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 100% 0%, rgba(49,134,255,0.10), transparent 55%),
-    radial-gradient(120% 90% at 0% 100%, rgba(52,168,83,0.10), transparent 55%);
+    radial-gradient(120% 90% at 100% 0%, rgba(0,83,214,0.12), transparent 55%),
+    radial-gradient(120% 90% at 0% 100%, rgba(51,224,200,0.16), transparent 55%);
 }
 .hero__head {
   display: flex;
@@ -228,7 +228,7 @@ button:focus-visible,
 }
 .sticker--blue {
   background: var(--blue);
-  color: var(--ink);
+  color: var(--paper);
   box-shadow: var(--shadow-ink);
   transform: rotate(-4deg);
 }
@@ -251,7 +251,7 @@ button:focus-visible,
 .hero__line { display: block; }
 .hero__title .hl {
   background: var(--blue);
-  color: var(--ink);
+  color: var(--paper);
   padding: 0 0.05em;
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
@@ -291,7 +291,7 @@ button:focus-visible,
   padding: 16px 20px;
   transition: transform .14s var(--ease-snap), box-shadow .14s var(--ease-snap);
 }
-.statblock--blue  { background: var(--blue);  color: var(--ink); box-shadow: var(--shadow-green); }
+.statblock--blue  { background: var(--blue);  color: var(--paper); box-shadow: var(--shadow-green); }
 .statblock--green { background: var(--green); color: var(--ink); box-shadow: var(--shadow-blue); }
 .statblock__num {
   font-family: var(--display);
@@ -391,7 +391,7 @@ button:focus-visible,
   flex: none;
   color: var(--ink);
 }
-.tick--blue  { background: var(--blue); }
+.tick--blue  { background: var(--blue); color: var(--paper); }
 .tick--green { background: var(--green); }
 
 /* ============================================================
@@ -459,7 +459,7 @@ button:focus-visible,
   border: var(--bw) solid var(--ink);
   padding: 24px;
 }
-.ratio__cell--blue  { background: var(--blue);  color: var(--ink); box-shadow: var(--shadow-green); }
+.ratio__cell--blue  { background: var(--blue);  color: var(--paper); box-shadow: var(--shadow-green); }
 .ratio__cell--green { background: var(--green); color: var(--ink); box-shadow: var(--shadow-blue); }
 .ratio__num {
   display: block;
@@ -537,7 +537,7 @@ ul.steps--bullets li {
   border: var(--bw) solid var(--ink);
   box-shadow: var(--shadow-green);
   background: var(--blue);
-  color: var(--ink);
+  color: var(--paper);
   padding: 24px clamp(20px, 3vw, 32px);
   font-family: var(--display);
   font-weight: 600;
@@ -643,7 +643,7 @@ ul.steps--bullets li {
 }
 .ctable tbody th[scope="row"] {
   background: var(--blue);
-  color: var(--ink);
+  color: var(--paper);
   font-family: var(--display);
   font-weight: 700;
   white-space: nowrap;
@@ -727,7 +727,7 @@ ul.steps--bullets li {
   letter-spacing: -0.05em;
   margin: 0 0 0.5em;
   line-height: 0.86;
-  background: linear-gradient(135deg, #4FA0FF 0%, #3186FF 45%, #34A853 100%);
+  background: linear-gradient(135deg, #0053D6 0%, #1f86c9 50%, #33E0C8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
